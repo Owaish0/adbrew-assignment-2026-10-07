@@ -1,3 +1,22 @@
+# Adbrew assignment
+
+A TODO app built with React, Django, and MongoDB. It loads saved todos, validates
+new descriptions, and refreshes the list after saving. The app runs using the
+starter's three-service Docker Compose setup.
+
+To try this submission, clone this repository:
+
+```sh
+git clone https://github.com/Owaish0/adbrew-assignment-2026-10-07.git
+cd adbrew-assignment-2026-10-07
+```
+
+See [Implementation notes](#implementation-notes) for the Docker fixes,
+PowerShell setup, and test commands. The original assignment instructions are
+preserved below for reference; their clone URL points to the starter repository.
+
+---
+
 # NOTE: DO NOT FORK THIS REPOSITORY. CLONE AND SETUP A STANDALONE REPOSITORY.
 
 # Adbrew Test!
