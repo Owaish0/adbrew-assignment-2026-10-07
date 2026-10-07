@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'rest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
-}
+# The assignment uses MongoDB only; the default creates a SQLite file at startup.
+DATABASES = {}
 
 
 # Password validation
@@ -133,4 +129,3 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
-

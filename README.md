@@ -66,3 +66,44 @@ When you run `localhost:3000`, you would see 2 things:
    * https://kinsta.com/blog/python-object-oriented-programming/
    * https://realpython.com/solid-principles-python/
    * https://www.toptal.com/python/python-design-patterns
+
+# Implementation notes
+
+The project keeps the starter's dependencies and Docker Compose setup. To fix
+the Docker build, the Python 3.8 image uses Debian Bullseye, which provides the
+`libssl1.1` package MongoDB 4.4 needs. Debian packages come from the archive,
+and the image uses its existing pip installation.
+
+SQLite is disabled because this app stores its data in MongoDB. This also stops
+Django's startup migration check from creating an unused SQLite file.
+
+To run the app from PowerShell, open a terminal in the repository folder:
+```powershell
+$env:ADBREW_CODEBASE_PATH = (Join-Path (Get-Location) 'src').Replace('\', '/')
+docker compose build
+docker compose up -d
+```
+
+Once the services are ready, run the backend tests, frontend tests, build, and
+MongoDB smoke check:
+```sh
+docker compose exec api bash -c "cd /src/rest && python manage.py test rest -v 2"
+docker compose exec app bash -c "cd /src/app && CI=true yarn test --watchAll=false --runInBand"
+docker compose exec app bash -c "cd /src/app && CI=true yarn build"
+docker compose exec api bash -c "cd /src/rest && python smoke_test.py"
+```
+
+`POST /todos` creates a todo from a JSON body containing a `description`.
+`GET /todos` returns the saved todos with string IDs and descriptions. Both
+endpoints also accept the original trailing slash (`/todos/`).
+
+Descriptions are trimmed and must contain between 1 and 500 characters.
+Duplicate descriptions are allowed, and todos are sorted by MongoDB ID.
+The form shows validation and request errors. If a todo saves but refreshing
+the list fails, it tells you the save succeeded so you don't submit it again.
+
+The tests don't use SQLite. The smoke check creates a todo in MongoDB, checks
+that the API returns it, and removes its own test record afterward.
+
+The starter's older dependencies and development settings are still in place.
+Local database files and Python caches are ignored by Git.
